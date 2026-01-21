@@ -1,0 +1,70 @@
+.flow-container {
+  width: 1200px;
+  height: 500px;
+}
+
+/* ノード（正常） - Shadcn風 */
+.node {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(0, 0%, 100%);
+  border: 1px solid hsl(142, 76%, 36%);
+  border-radius: 8px;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: hsl(142, 76%, 36%);
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* ノード（異常） */
+.node.error {
+  border-color: hsl(0, 84%, 60%);
+  color: hsl(0, 84%, 60%);
+}
+
+/* ノードタイトル */
+.node-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: hsl(240, 10%, 3.9%);
+  margin-bottom: 8px;
+}
+
+/* Chipリスト（縦並び・左寄せ） */
+.chip-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: 100%;
+}
+
+/* エッジ（アニメーション中） */
+.edge {
+  fill: none;
+  stroke: hsl(142, 76%, 36%);
+  stroke-width: 1.5;
+  stroke-dasharray: 5;
+  animation: dash 0.5s linear infinite;
+}
+
+/* エッジ（アニメーション停止） */
+.edge.edge-stopped {
+  animation: none;
+  stroke: hsl(240, 5%, 84%);
+}
+
+@keyframes dash {
+  from {
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
