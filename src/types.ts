@@ -32,9 +32,16 @@ export type NodeProps = {
   status?: NodeStatus;
 };
 
+export type CheckPointStatus = 'pass' | 'error';
+
+export type CheckPoint = {
+  label: string;
+  status: CheckPointStatus;
+};
+
 export type CheckPointNodeProps = {
   label: string;
-  status?: NodeStatus;
+  checkPoints: CheckPoint[];
 };
 
 export type EdgeLabelProps = {

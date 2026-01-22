@@ -1,7 +1,7 @@
 import type React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Flow, Node, CountNode, CheckPointNode } from './components';
-import type { FlowNode, FlowEdge } from './types';
+import type { FlowNode, FlowEdge, CheckPoint } from './types';
 import './App.css';
 
 // Shadcn風のMUIテーマ
@@ -15,6 +15,13 @@ const theme = createTheme({
 // サンプルデータ
 const node1Items = ['アイテム A-1', 'アイテム A-2', 'アイテム A-3'];
 const node2Items: string[] = [];
+
+// Node 5のチェック観点
+const node5CheckPoints: CheckPoint[] = [
+  { label: '観点A', status: 'pass' },
+  { label: '観点B', status: 'pass' },
+  { label: '観点C', status: 'error' },
+];
 
 // ノード定義
 const nodes: FlowNode[] = [
@@ -73,7 +80,8 @@ const nodes: FlowNode[] = [
     y: 15,
     width: 150,
     height: 112,
-    component: ({ status }) => <CheckPointNode label="Node 5" status={status} />,
+    blocksFlow: true,
+    component: () => <CheckPointNode label="Node 5" checkPoints={node5CheckPoints} />,
   },
   {
     id: '6',
