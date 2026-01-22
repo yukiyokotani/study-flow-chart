@@ -9,6 +9,7 @@ export type FlowNode = {
   width: number;
   height: number;
   status?: NodeStatus;
+  blocksFlow?: boolean;
   component: (props: { status?: NodeStatus }) => ReactNode;
 };
 

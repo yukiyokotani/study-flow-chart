@@ -1,29 +1,20 @@
 import type React from 'react';
-import type { FlowProps, FlowNode, FlowEdge } from '../types';
+import type { FlowProps, FlowNode } from '../types';
 import { EdgeLabel } from './EdgeLabel';
 
-// エラーノードから先の影響を受けるノードIDを計算（アニメーション停止用）
-const getAffectedNodeIds = (nodes: FlowNode[], edges: FlowEdge[]): Set<string> => {
-  const affected = new Set<string>();
+// フローをブロックするノードIDを計算（アニメーション停止用）
+// ノード自身がerrorまたはblocksFlowの場合のみ影響を受ける
+// 下流への伝播はしない（エッジ単位で判定するため）
+const getBlockedNodeIds = (nodes: FlowNode[]): Set<string> => {
+  const blocked = new Set<string>();
 
   for (const node of nodes) {
-    if (node.status === 'error') {
-      affected.add(node.id);
+    if (node.status === 'error' || node.blocksFlow) {
+      blocked.add(node.id);
     }
   }
 
-  let changed = true;
-  while (changed) {
-    changed = false;
-    for (const edge of edges) {
-      if (affected.has(edge.source) && !affected.has(edge.target)) {
-        affected.add(edge.target);
-        changed = true;
-      }
-    }
-  }
-
-  return affected;
+  return blocked;
 };
 
 // ベジェ曲線のパスを生成
@@ -70,7 +61,7 @@ export const Flow: React.FC<FlowProps> = ({
   height = 500,
 }) => {
   const nodeMap = new Map(nodes.map((n) => [n.id, n]));
-  const affectedNodes = getAffectedNodeIds(nodes, edges);
+  const blockedNodes = getBlockedNodeIds(nodes);
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
@@ -79,14 +70,14 @@ export const Flow: React.FC<FlowProps> = ({
         const target = nodeMap.get(edge.target);
         if (!source || !target) return null;
 
-        const isAffected = affectedNodes.has(edge.source);
+        const isBlocked = blockedNodes.has(edge.source);
         const labelPos = edge.label ? getEdgeLabelPosition(source, target) : null;
 
         return (
           <g key={`${edge.source}-${edge.target}`}>
             <path
               d={createEdgePath(source, target)}
-              className={isAffected ? 'edge edge-stopped' : 'edge'}
+              className={isBlocked ? 'edge edge-stopped' : 'edge'}
             />
             {edge.label && labelPos && (
               <EdgeLabel x={labelPos.x} y={labelPos.y} label={edge.label} status={edge.labelStatus} />

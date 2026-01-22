@@ -40,6 +40,7 @@ const nodes: FlowNode[] = [
     width: 100,
     height: 32,
     status: 'inactive',
+    blocksFlow: true,
     component: ({ status }) => (
       <CountNode
         label="Node 2"
@@ -55,6 +56,7 @@ const nodes: FlowNode[] = [
     y: 55,
     width: 100,
     height: 32,
+    status: 'inactive',
     component: ({ status }) => <Node label="Node 3" status={status} />,
   },
   {
@@ -81,14 +83,23 @@ const nodes: FlowNode[] = [
     height: 32,
     component: ({ status }) => <Node label="Node 6" status={status} />,
   },
+  {
+    id: '7',
+    x: 180,
+    y: 115,
+    width: 100,
+    height: 32,
+    component: ({ status }) => <Node label="Node 7" status={status} />,
+  },
 ];
 
 // エッジ定義
 const edges: FlowEdge[] = [
   { source: '1', target: '3' },
   { source: '2', target: '3' },
-  { source: '3', target: '4', label: '100', labelStatus: 'active' },
-  { source: '4', target: '5', label: '0', labelStatus: 'warning' },
+  { source: '3', target: '4' },
+  { source: '7', target: '4' },
+  { source: '4', target: '5' },
   { source: '5', target: '6' },
 ];
 
@@ -96,7 +107,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="flow-container">
-        <Flow nodes={nodes} edges={edges} width={800} height={150} />
+        <Flow nodes={nodes} edges={edges} width={800} height={170} />
       </div>
     </ThemeProvider>
   );
