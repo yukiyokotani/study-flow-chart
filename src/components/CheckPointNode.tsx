@@ -1,15 +1,19 @@
 import type React from 'react';
 import Chip from '@mui/material/Chip';
-import CheckIcon from '@mui/icons-material/Check';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { green } from '@mui/material/colors';
 import type { CheckPointNodeProps } from '../types';
 
-export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ error }) => {
+export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ status }) => {
   const checkPoints = ['観点A', '観点B', '観点C'];
+  const className = ['node', status && status !== 'active' && status]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
-      className={error ? 'node error' : 'node'}
-      style={{ flexDirection: 'column', alignItems: 'flex-start', padding: 12 }}
+      className={className}
+      style={{ flexDirection: 'column', alignItems: 'flex-start', padding: 8 }}
     >
       <div className="node-title">Node 5</div>
       <div className="chip-list">
@@ -18,13 +22,14 @@ export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ error }) => {
             key={point}
             label={point}
             size="small"
-            icon={<CheckIcon />}
+            variant="outlined"
+            icon={<CheckCircleIcon />}
             sx={{
-              bgcolor: 'hsl(143, 85%, 96%)',
-              color: 'hsl(140, 100%, 27%)',
-              border: '1px solid hsl(141, 79%, 85%)',
+              bgcolor: 'rgba(16, 185, 129, 0.15)',
+              color: green[400],
+              borderColor: 'rgba(16, 185, 129, 0.3)',
               '& .MuiChip-icon': {
-                color: 'hsl(140, 100%, 27%)',
+                color: green[400],
               },
             }}
           />

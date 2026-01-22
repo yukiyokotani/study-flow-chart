@@ -1,39 +1,90 @@
 .flow-container {
-  width: 1200px;
-  height: 500px;
+  width: 900px;
+  height: 300px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
-/* ノード（正常） - Shadcn風 */
+/* ノード（正常） - ダークテーマ */
 .node {
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: hsl(0, 0%, 100%);
-  border: 1px solid hsl(142, 76%, 36%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+  border: 1px solid #10b981;
   border-radius: 8px;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
-  color: hsl(142, 76%, 36%);
+  color: #10b981;
   box-sizing: border-box;
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  transition: all 0.2s ease;
+}
+
+.node:hover {
+  background: linear-gradient(135deg, #252525 0%, #2a2a2a 100%);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08) inset;
 }
 
 /* ノード（異常） */
 .node.error {
-  border-color: hsl(0, 84%, 60%);
-  color: hsl(0, 84%, 60%);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* ノード（非活性・素通し） */
+.node.inactive {
+  border-color: #666;
+  color: #888;
+}
+
+/* ノード（警告） */
+.node.warning {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+/* カウントバッジ */
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 6px;
+  margin-left: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9px;
+  background: #10b981;
+  color: #0a0a0a;
+}
+
+.node.error .count-badge {
+  background: #ef4444;
+}
+
+.node.inactive .count-badge {
+  background: #666;
+}
+
+.node.warning .count-badge {
+  background: #f59e0b;
 }
 
 /* ノードタイトル */
 .node-title {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
-  color: hsl(240, 10%, 3.9%);
-  margin-bottom: 8px;
+  color: inherit;
+  margin-bottom: 6px;
 }
 
 /* Chipリスト（縦並び・左寄せ） */
@@ -41,28 +92,30 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 4px;
   width: 100%;
 }
 
 /* エッジ（アニメーション中） */
 .edge {
   fill: none;
-  stroke: hsl(142, 76%, 36%);
+  stroke: #10b981;
   stroke-width: 1.5;
-  stroke-dasharray: 5;
-  animation: dash 0.5s linear infinite;
+  stroke-dasharray: 4 2;
+  animation: dash 0.4s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.4));
 }
 
 /* エッジ（アニメーション停止） */
 .edge.edge-stopped {
   animation: none;
-  stroke: hsl(240, 5%, 84%);
+  stroke: #404040;
+  filter: none;
 }
 
 @keyframes dash {
   from {
-    stroke-dashoffset: 10;
+    stroke-dashoffset: 6;
   }
   to {
     stroke-dashoffset: 0;

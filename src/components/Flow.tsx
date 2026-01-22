@@ -2,12 +2,12 @@ import type React from 'react';
 import type { FlowProps, FlowNode, FlowEdge } from '../types';
 import { EdgeLabel } from './EdgeLabel';
 
-// 異常ノードから先の影響を受けるノードIDを計算
+// エラーノードから先の影響を受けるノードIDを計算（アニメーション停止用）
 const getAffectedNodeIds = (nodes: FlowNode[], edges: FlowEdge[]): Set<string> => {
   const affected = new Set<string>();
 
   for (const node of nodes) {
-    if (node.error) {
+    if (node.status === 'error') {
       affected.add(node.id);
     }
   }
@@ -89,7 +89,7 @@ export const Flow: React.FC<FlowProps> = ({
               className={isAffected ? 'edge edge-stopped' : 'edge'}
             />
             {edge.label && labelPos && (
-              <EdgeLabel x={labelPos.x} y={labelPos.y} label={edge.label} />
+              <EdgeLabel x={labelPos.x} y={labelPos.y} label={edge.label} status={edge.labelStatus} />
             )}
           </g>
         );
@@ -103,7 +103,7 @@ export const Flow: React.FC<FlowProps> = ({
           width={node.width}
           height={node.height}
         >
-          {node.component({ error: node.error })}
+          {node.component({ status: node.status })}
         </foreignObject>
       ))}
     </svg>

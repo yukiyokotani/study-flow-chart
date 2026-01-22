@@ -1,19 +1,22 @@
 import type { ReactNode } from 'react';
 
+export type NodeStatus = 'active' | 'inactive' | 'warning' | 'error';
+
 export type FlowNode = {
   id: string;
   x: number;
   y: number;
   width: number;
   height: number;
-  error?: boolean;
-  component: (props: { error?: boolean }) => ReactNode;
+  status?: NodeStatus;
+  component: (props: { status?: NodeStatus }) => ReactNode;
 };
 
 export type FlowEdge = {
   source: string;
   target: string;
   label?: string;
+  labelStatus?: NodeStatus;
 };
 
 export type FlowProps = {
@@ -25,15 +28,16 @@ export type FlowProps = {
 
 export type NodeProps = {
   label: string;
-  error?: boolean;
+  status?: NodeStatus;
 };
 
 export type CheckPointNodeProps = {
-  error?: boolean;
+  status?: NodeStatus;
 };
 
 export type EdgeLabelProps = {
   x: number;
   y: number;
   label: string;
+  status?: NodeStatus;
 };

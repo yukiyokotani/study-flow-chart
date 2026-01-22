@@ -1,6 +1,6 @@
 import type React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Flow, Node, CheckPointNode } from './components';
+import { Flow, Node, CountNode, CheckPointNode } from './components';
 import type { FlowNode, FlowEdge } from './types';
 import './App.css';
 
@@ -10,61 +10,76 @@ const theme = createTheme({
     fontFamily:
       'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   },
-  components: {
-  },
 });
+
+// サンプルデータ
+const node1Items = ['アイテム A-1', 'アイテム A-2', 'アイテム A-3'];
+const node2Items: string[] = [];
 
 // ノード定義
 const nodes: FlowNode[] = [
   {
     id: '1',
-    x: 50,
-    y: 30,
-    width: 150,
-    height: 40,
-    component: ({ error }) => <Node label="Node 1" error={error} />,
+    x: 30,
+    y: 20,
+    width: 100,
+    height: 32,
+    component: ({ status }) => (
+      <CountNode
+        label="Node 1"
+        count={node1Items.length}
+        items={node1Items}
+        status={status}
+      />
+    ),
   },
   {
     id: '2',
-    x: 50,
-    y: 130,
-    width: 150,
-    height: 40,
-    error: true,
-    component: ({ error }) => <Node label="Node 2" error={error} />,
+    x: 30,
+    y: 90,
+    width: 100,
+    height: 32,
+    status: 'inactive',
+    component: ({ status }) => (
+      <CountNode
+        label="Node 2"
+        count={node2Items.length}
+        items={node2Items}
+        status={status}
+      />
+    ),
   },
   {
     id: '3',
-    x: 250,
-    y: 80,
-    width: 150,
-    height: 40,
-    component: ({ error }) => <Node label="Node 3" error={error} />,
+    x: 180,
+    y: 55,
+    width: 100,
+    height: 32,
+    component: ({ status }) => <Node label="Node 3" status={status} />,
   },
   {
     id: '4',
-    x: 460,
-    y: 80,
-    width: 150,
-    height: 40,
-    error: true,
-    component: ({ error }) => <Node label="Node 4" error={error} />,
+    x: 350,
+    y: 55,
+    width: 100,
+    height: 32,
+    component: ({ status }) => <Node label="Node 4" status={status} />,
   },
   {
     id: '5',
-    x: 670,
-    y: 40,
-    width: 160,
-    height: 120,
-    component: ({ error }) => <CheckPointNode error={error} />,
+    x: 510,
+    y: 15,
+    width: 150,
+    height: 112,
+    component: ({ status }) => <CheckPointNode status={status} />,
   },
   {
     id: '6',
-    x: 860,
-    y: 80,
-    width: 150,
-    height: 40,
-    component: ({ error }) => <Node label="Node 6" error={error} />,
+    x: 700,
+    y: 55,
+    width: 100,
+    height: 32,
+    component: ({ status }) => <Node label="Node 6" status={status} />,
   },
 ];
 
@@ -72,8 +87,8 @@ const nodes: FlowNode[] = [
 const edges: FlowEdge[] = [
   { source: '1', target: '3' },
   { source: '2', target: '3' },
-  { source: '3', target: '4', label: '100' },
-  { source: '4', target: '5', label: '25' },
+  { source: '3', target: '4', label: '100', labelStatus: 'active' },
+  { source: '4', target: '5', label: '0', labelStatus: 'warning' },
   { source: '5', target: '6' },
 ];
 
@@ -81,7 +96,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <div className="flow-container">
-        <Flow nodes={nodes} edges={edges} />
+        <Flow nodes={nodes} edges={edges} width={800} height={150} />
       </div>
     </ThemeProvider>
   );
