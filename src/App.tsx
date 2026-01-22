@@ -71,7 +71,7 @@ const nodes: FlowNode[] = [
     y: 15,
     width: 150,
     height: 112,
-    component: ({ status }) => <CheckPointNode status={status} />,
+    component: ({ status }) => <CheckPointNode label="Node 5" status={status} />,
   },
   {
     id: '6',

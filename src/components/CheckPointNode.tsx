@@ -4,7 +4,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { green } from '@mui/material/colors';
 import type { CheckPointNodeProps } from '../types';
 
-export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ status }) => {
+export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ label, status }) => {
   const checkPoints = ['観点A', '観点B', '観点C'];
   const className = ['node', status && status !== 'active' && status]
     .filter(Boolean)
@@ -15,7 +15,7 @@ export const CheckPointNode: React.FC<CheckPointNodeProps> = ({ status }) => {
       className={className}
       style={{ flexDirection: 'column', alignItems: 'flex-start', padding: 8 }}
     >
-      <div className="node-title">Node 5</div>
+      <div className="node-title">{label}</div>
       <div className="chip-list">
         {checkPoints.map((point) => (
           <Chip

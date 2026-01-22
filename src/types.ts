@@ -32,6 +32,7 @@ export type NodeProps = {
 };
 
 export type CheckPointNodeProps = {
+  label: string;
   status?: NodeStatus;
 };
 
